@@ -28,11 +28,6 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --group dev
 
-      - name: Contrôle du style (linter)
-        run: ruff check .
+      - name: Contrôles (style, mise en forme, tests)
+        run: make check
 
-      - name: Contrôle de la mise en forme
-        run: ruff format --check .
-
-      - name: Tests
-        run: pytest .
