@@ -29,7 +29,7 @@ authentication (Keycloak) and authorization (OpenFGA). See ADR-0001
 - If Fred already provides a capability (authentication, permissions, sessions,
   agent orchestration, document ingestion), use it. Do not re-implement it.
 - Do not modify Fred's code. Integrate through its public SDK and APIs, at the
-  version pinned in ADR-0001.
+  version pinned in README.md
 - Prefer the smallest change that solves the problem.
 
 ## Architecture rules
