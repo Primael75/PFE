@@ -1,7 +1,12 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
 [project]
 name = "agritech"
 version = "0.1.0"
 requires-python = ">=3.12,<3.13"
 
 [dependency-groups]
-dev=["ruff","pytest"]
+dev = ["ruff", "pytest"]
+
