@@ -20,8 +20,7 @@ diagnosis of crop diseases, and markets (prices and net gain of selling options)
 
 The solution is built on Fred (Thales, Apache-2.0), which runs as the background
 platform: agents, MCP tools, document ingestion, applications, and possibly
-authentication (Keycloak) and authorization (OpenFGA). See ADR-0001 (accepted,
-not yet moved to `docs/adr/`).
+authentication (Keycloak) and authorization (OpenFGA). See ADR-0001 
 
 ## Prime directive: reuse, do not duplicate
 
