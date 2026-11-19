@@ -76,7 +76,10 @@ python -m venv .venv
 source .venv/bin/activate
 python -m pip install --upgrade pip
 python -m pip install --group dev
+python -m pip install -e .
 ```
+
+The project uses a src layout:install it in editable mode, otherwise 'import agritech' fails.
 
 Before reporting work as done, run `make check`. It runs the same checks as
 CI. Do not report done with a failing check.
