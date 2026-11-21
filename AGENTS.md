@@ -20,7 +20,8 @@ diagnosis of crop diseases, and markets (prices and net gain of selling options)
 
 The solution is built on Fred (Thales, Apache-2.0), which runs as the background
 platform: agents, MCP tools, document ingestion, applications, and possibly
-authentication (Keycloak) and authorization (OpenFGA). See ADR-0001 
+authentication (Keycloak) and authorization (OpenFGA). See
+`docs/adr/0001-agentic-platform-on-fred-with-mcp.md`.
 
 ## Prime directive: reuse, do not duplicate
 
@@ -29,7 +30,7 @@ authentication (Keycloak) and authorization (OpenFGA). See ADR-0001
 - If Fred already provides a capability (authentication, permissions, sessions,
   agent orchestration, document ingestion), use it. Do not re-implement it.
 - Do not modify Fred's code. Integrate through its public SDK and APIs, at the
-  version pinned in README.md
+  version pinned in `README.md`.
 - Prefer the smallest change that solves the problem.
 
 ## Architecture rules
@@ -47,6 +48,16 @@ authentication (Keycloak) and authorization (OpenFGA). See ADR-0001
 - The repository layout is not decided yet. Ask before creating a new
   top-level directory.
 
+## MCP server template
+
+- The template lives in `src/agritech/example/`; its README is the guide.
+- The template is a reference, not a constraint. Adapt it to the needs of
+  a brick.
+- Any deviation from an accepted ADR is declared in the pull request
+  description and in the brick's README: which ADR, what differs, why, and
+  its real impact.
+- A deviation that changes a structural decision needs a new ADR.
+
 ## Dependencies and licences
 
 - Code may only depend on permissive licences (MIT, BSD, Apache-2.0, ISC).
@@ -54,8 +65,7 @@ authentication (Keycloak) and authorization (OpenFGA). See ADR-0001
   Non-commercial, source-available and unlicensed code is excluded.
 - Data: CC0, CC BY, CC BY-IGO or ODbL, with attribution.
 - Every new dependency is declared in `pyproject.toml` and recorded in
-  `DEPENDANCES.md` (licence, category, reason). Create that file with the
-  first runtime dependency.
+  `DEPENDANCES.md` (licence, category, reason).
 - This policy comes from ADR-0005 (draft, not yet in `docs/adr/`).
 
 ## Secrets
@@ -68,17 +78,21 @@ authentication (Keycloak) and authorization (OpenFGA). See ADR-0001
 
 ## Environment and checks
 
-Python 3.12 only (pinned by Fred). From the repository root:
+Python 3.12 only (pinned by Fred). Dependencies are managed with uv
+(https://docs.astral.sh/uv/) and locked in `uv.lock`. From the repository
+root:
 
 ```bash
-python -m venv .venv
-source .venv/bin/activate
-python -m pip install --upgrade pip
-python -m pip install --group dev
-python -m pip install -e .
+uv sync
 ```
 
-The project uses a src layout:install it in editable mode, otherwise 'import agritech' fails.
+`uv sync` creates `.venv` and installs the project in editable mode, with
+its locked dependencies and the `dev` group. Run tools through `uv run`
+(for example `uv run pytest`); no activation is needed.
+
+- Add a dependency with `uv add <package>` (`uv add --dev <package>` for a
+  development tool), then record it in `DEPENDANCES.md`.
+- Never edit `uv.lock` by hand. Commit it together with `pyproject.toml`.
 
 Before reporting work as done, run `make check`. It runs the same checks as
 CI. Do not report done with a failing check.
@@ -106,6 +120,7 @@ Unit tests run offline: no network access and no paid language-model calls.
 
 - Comments explain why, in two or three lines at most.
 - No issue or PR numbers in code; the trail lives in Git and GitHub.
+- Use `logging` with one logger per module; never `print`.
 
 ## Decisions (ADR)
 
@@ -124,13 +139,3 @@ Unit tests run offline: no network access and no paid language-model calls.
 - Two valid approaches exist and no ADR settles the choice.
 - The change would expand beyond what was confirmed.
 - A rule in this file seems wrong or outdated: say so, do not ignore it.
-
-## MCP server template
-
-- The template is a reference, not a constraint. Adapt it to the needs of
-  a brick.
-- Any deviation from an accepted ADR is declared in the pull request
-  description and in the brick's README: which ADR, what differs, why, and
-  its real impact.
-- A deviation that changes a structural decision needs a new ADR.
-- The template lives in `src/agritech/example/`; its README is the guide.

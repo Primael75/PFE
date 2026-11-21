@@ -16,19 +16,14 @@ jobs:
       - name: Récupérer le code
         uses: actions/checkout@v6
 
-      - name: Installer Python 3.12
-        uses: actions/setup-python@v5
+      - name: Installer uv et Python 3.12
+        uses: astral-sh/setup-uv@v10.3.2
         with:
           python-version: "3.12"
-          cache: pip
-          cache-dependency-path: pyproject.toml
+          enable-cache: true
 
-      - name: Installer les outils de développement
-        run: |
-          python -m pip install --upgrade pip
-          python -m pip install --group dev
-          python -m pip install -e .
+      - name: Installer le projet et ses outils
+        run: uv sync --locked
 
       - name: Contrôles (style, mise en forme, tests)
         run: make check
-

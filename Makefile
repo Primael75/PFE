@@ -3,10 +3,10 @@
 check: lint format-check test
 
 lint:
-	ruff check .
+	uv run ruff check .
 
 format-check:
-	ruff format --check .
+	uv run ruff format --check .
 
 test:
-	pytest .
+	uv run pytest .
