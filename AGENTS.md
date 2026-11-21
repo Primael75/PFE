@@ -133,3 +133,4 @@ Unit tests run offline: no network access and no paid language-model calls.
   description and in the brick's README: which ADR, what differs, why, and
   its real impact.
 - A deviation that changes a structural decision needs a new ADR.
+- The template lives in `src/agritech/example/`; its README is the guide.
