@@ -124,3 +124,12 @@ Unit tests run offline: no network access and no paid language-model calls.
 - Two valid approaches exist and no ADR settles the choice.
 - The change would expand beyond what was confirmed.
 - A rule in this file seems wrong or outdated: say so, do not ignore it.
+
+## MCP server template
+
+- The template is a reference, not a constraint. Adapt it to the needs of
+  a brick.
+- Any deviation from an accepted ADR is declared in the pull request
+  description and in the brick's README: which ADR, what differs, why, and
+  its real impact.
+- A deviation that changes a structural decision needs a new ADR.
