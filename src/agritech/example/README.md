@@ -59,15 +59,15 @@ source, read by the model, and the structured data.
 
 ## Run locally
 
-From the repository root, with the virtual environment activated:
+From the repository root:
 
 ```bash
 # Case A over streamable HTTP, as Fred will call it
-uvicorn agritech.example.mcp_server:create_app --factory --port 8000
+uv run uvicorn agritech.example.mcp_server:create_app --factory --port 8000
 
 # Case A or B over stdio, for a local MCP client
-python -m agritech.example.mcp_server
-python -m agritech.example.api
+uv run python -m agritech.example.mcp_server
+uv run python -m agritech.example.api
 ```
 
 ## Declaring a server in Fred
