@@ -24,8 +24,11 @@ def demo_price(market: str, crop: str) -> ToolResult:
     return to_tool_result(result)
 
 
-# Same settings as Fred's Knowledge Flow: no MCP session, JSON responses.
-app = mcp.http_app(path="/mcp", stateless_http=True, json_response=True)
+def create_app():
+    """Build the HTTP application served by uvicorn, as Fred will call it."""
+    configure_logging()
+    # Same settings as Fred's Knowledge Flow: no MCP session, JSON responses.
+    return mcp.http_app(path="/mcp", stateless_http=True, json_response=True)
 
 
 if __name__ == "__main__":
