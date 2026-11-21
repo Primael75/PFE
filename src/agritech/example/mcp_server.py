@@ -5,6 +5,7 @@ import logging
 from fastmcp import FastMCP
 from fastmcp.tools import ToolResult
 
+from agritech.core.logging_config import configure_logging
 from agritech.core.tool_output import missing_data, to_tool_result
 from agritech.example.prices import get_demo_price
 
@@ -29,5 +30,5 @@ app = mcp.http_app(path="/mcp", stateless_http=True, json_response=True)
 
 if __name__ == "__main__":
     # Logs go to stderr: in stdio, stdout carries the MCP protocol.
-    logging.basicConfig(level=logging.INFO)
+    configure_logging()
     mcp.run()  # stdio by default, for local clients such as Claude Desktop

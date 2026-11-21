@@ -16,3 +16,6 @@ dependencies = [
 [dependency-groups]
 dev = ["ruff", "pytest"]
 
+[tool.ruff.lint]
+extend-select = ["T20"]
+

@@ -6,6 +6,7 @@ from fastapi import FastAPI, HTTPException
 from fastmcp import FastMCP
 from fastmcp.server.providers.openapi import MCPType, RouteMap
 
+from agritech.core.logging_config import configure_logging
 from agritech.core.tool_output import SourcedValue
 from agritech.example.prices import get_demo_price
 
@@ -38,5 +39,5 @@ mcp = FastMCP.from_fastapi(
 
 if __name__ == "__main__":
     # Logs go to stderr: in stdio, stdout carries the MCP protocol.
-    logging.basicConfig(level=logging.INFO)
+    configure_logging()
     mcp.run()  # MCP side only, over stdio; the REST API is served by uvicorn
