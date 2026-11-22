@@ -12,4 +12,7 @@ Team 3 (Markets).
 Price trend per crop, to team 1.
 
 ## Status
-Empty. To be built in sprints 1 and 2.
+- `wfp.py`: reads the WFP price file for Benin and lists the markets
+  covering our crops, with their first and last dates (H-T5). Run by
+  `scripts/ht5_wfp_prices.py`, see `docs/trials/ht5-prices.md`.
+- Price tools: sprint 2.
