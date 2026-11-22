@@ -25,7 +25,7 @@ CSV_URL = (
     "https://data.humdata.org/dataset/66c7d54e-0c3b-45e5-9a46-07ea6f195093/resource/"
     "7da1ea0a-56c7-450a-af2c-d477745fc856/download/wfp_food_prices_ben.csv"
 )
-LICENCE = "CC BY-IGO 3.0, as stated on the HDX page (to check on the day of download)"
+LICENCE = "CC BY-IGO (Creative Commons Attribution for Intergovernmental Organisations), checked on the HDX page on 2026-11-22"
 
 
 def download(target: Path) -> None:
