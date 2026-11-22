@@ -1,0 +1,22 @@
+# Values for Fred's release that declare Agritech's MCP server, passed in
+# addition to Synthia's:
+#
+#   make k3d-app APP=fred RELEASE=3.13.0 \
+#     VALUES="<synthia-app>/deploy/k3d/fred-runtime.yaml <this file>"
+#
+# Helm replaces lists: any other mcp_catalog_external entry must be added
+# here, in the same list.
+applications:
+  fred-agents:
+    mcp_catalog_external:
+      version: v1
+      servers:
+        - id: "mcp-agritech-photo-example"
+          name: "Agritech photo example (H-T4)"
+          description: "Reads the format and size of a photo attached in the conversation."
+          prompt_group_title: "Agritech photo"
+          enabled: true
+          transport: "streamable_http"
+          url: "http://host.docker.internal:8077/mcp"
+          sse_read_timeout: 2000
+          auth_mode: "delegated"
