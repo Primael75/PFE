@@ -12,6 +12,7 @@ dependencies = [
     "mcp>=2.3.0,<3",
     "uvicorn",
     "fastapi",
+    "httpx2>=2.16,<3",
 ]
 
 [dependency-groups]
