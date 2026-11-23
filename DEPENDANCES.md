@@ -11,3 +11,13 @@ Every runtime dependency, with its licence. See the licence policy in
 | fastapi | unconstrained (to align with Knowledge Flow) | MIT | Permissive | Case B of the template: an API route also exposed as an MCP tool |
 | uvicorn | unconstrained (to align with Knowledge Flow) | BSD-3-Clause | Permissive | ASGI server that runs MCP servers over streamable HTTP |
 | httpx2 | >=2.16,<3 | BSD-3-Clause | Permissive | Photo example (H-T4): download a photo from Fred's Knowledge Flow. HTTP client already used by fastmcp and mcp; declared because the code imports it |
+
+## Group `diagnosis`
+
+Installed only on request (`uv sync --group diagnosis`); CI installs it to
+run the photo data tests.
+
+| Dependency | Version | Licence | Category | Reason |
+| --- | --- | --- | --- | --- |
+| numpy | >=2.5,<3 | BSD-3-Clause | Permissive | Photo dataset preparation: visual fingerprints and near-duplicate search |
+| pillow | >=13,<14 | MIT-CMU | Permissive | Photo dataset preparation: decode each image, detect unreadable files |
