@@ -221,3 +221,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Diagnosis model weights: shared outside Git (src/agritech/diagnosis/weights/README.md)
+src/agritech/diagnosis/weights/*.pt

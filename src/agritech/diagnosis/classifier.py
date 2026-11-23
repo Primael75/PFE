@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 IMAGENET_MEAN = (0.485, 0.456, 0.406)
 IMAGENET_STD = (0.229, 0.224, 0.225)
 
-# Weights shipped with the brick; AGRITECH_DIAGNOSIS_MODEL can point elsewhere.
+# Downloaded next to the brick, out of Git; AGRITECH_DIAGNOSIS_MODEL can override.
 DEFAULT_MODEL = Path(__file__).resolve().parent / "weights" / "best.pt"
 
 

@@ -23,7 +23,7 @@ and the off-topic class come in sprint 2.
 | `diagnosis.py` | Domain | Turns class probabilities into a `SourcedValue`: class, `uncertain` or `off_topic`. No MCP, no PyTorch |
 | `classifier.py` | Adapter | The trained network (MobileNetV3) behind the `Classifier` protocol, with the training preprocessing |
 | `mcp_server.py` | Adapter, case A | The tool `diagnose_photo(document_uid)`, served over streamable HTTP |
-| `weights/` | Data | `best.pt` (trained weights) and, once computed, `calibration.json` |
+| `weights/` | Data | `best.pt` (trained weights, kept out of Git: see `weights/README.md`) and, once computed, `calibration.json` |
 | `tests/diagnosis/test_diagnosis.py` | Tests | Every layer without an agent; a fake classifier, except one test on the real network with random weights |
 | `scripts/measure_ht2.py` | Measure | Tool time over HTTP, for H-T2 |
 
@@ -47,7 +47,7 @@ Class names keep the spelling of the training dataset (for example
 
 ## Run locally
 
-From the repository root, with the weights in `src/agritech/diagnosis/weights/`.
+From the repository root, with `best.pt` downloaded into `src/agritech/diagnosis/weights/` (see `weights/README.md`).
 The model needs the `diagnosis` dependency group (PyTorch):
 
 ```bash
