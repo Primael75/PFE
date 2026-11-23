@@ -20,6 +20,8 @@ dev = ["ruff", "pytest"]
 diagnosis = [
     "numpy>=2.5,<3",
     "pillow>=13,<14",
+    "torch>=2.6,<3",
+    "torchvision>=0.21,<1",
 ]
 
 [tool.ruff.lint]
