@@ -17,6 +17,10 @@ dependencies = [
 
 [dependency-groups]
 dev = ["ruff", "pytest"]
+diagnosis = [
+    "numpy>=2.5,<3",
+    "pillow>=13,<14",
+]
 
 [tool.ruff.lint]
 extend-select = ["T20"]
