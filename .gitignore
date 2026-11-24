@@ -222,5 +222,10 @@ __marimo__/
 # Streamlit
 .streamlit/secrets.toml
 
-# Diagnosis model weights: shared outside Git (src/agritech/diagnosis/weights/README.md)
-src/agritech/diagnosis/weights/*.pt
+# Photo diagnosis: generated splits, training runs and weights stay outside Git.
+/data_ccmt/
+/data_split/
+/runs/
+*.pt
+*.pth
+*.onnx

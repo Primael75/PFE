@@ -15,11 +15,12 @@ Every runtime dependency, with its licence. See the licence policy in
 ## Group `diagnosis`
 
 Installed only on request (`uv sync --group diagnosis`); CI installs it to
-run the photo data tests and the diagnosis model test.
+run the photo data and diagnosis tests. torch and torchvision come from the
+PyTorch CPU index (`[tool.uv.index]` in `pyproject.toml`).
 
 | Dependency | Version | Licence | Category | Reason |
 | --- | --- | --- | --- | --- |
 | numpy | >=2.5,<3 | BSD-3-Clause | Permissive | Photo dataset preparation: visual fingerprints and near-duplicate search |
-| pillow | >=13,<14 | MIT-CMU | Permissive | Photo dataset preparation: decode each image, detect unreadable files. Diagnosis brick: decode the photo and apply its EXIF rotation |
-| torch | >=2.6,<3 | BSD-3-Clause | Permissive | Diagnosis brick: runs the trained photo model (MobileNetV3) on CPU. 2.6 or later, where `torch.load` refuses arbitrary pickled objects by default |
-| torchvision | >=0.21,<1 | BSD-3-Clause | Permissive | Diagnosis brick: model architecture and image preprocessing, identical to training |
+| pillow | >=13,<14 | MIT-CMU | Permissive | Photo dataset preparation: decode each image, detect unreadable files |
+| torch | >=2.15,<3, CPU build | BSD-3-Clause | Permissive | Photo diagnosis: train and run the baseline model |
+| torchvision | >=0.29,<1, CPU build | BSD-3-Clause | Permissive | Photo diagnosis: MobileNetV3-Large architecture and image transforms |
