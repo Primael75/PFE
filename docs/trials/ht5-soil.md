@@ -42,4 +42,5 @@ format (`tests/data/test_isdasoil.py`).
 | Values for 3 points of zone A | yes, 24 / 24, both depths |
 | Uncertainty available | yes, except 3 of the 6 pH values (0 to 0 intervals) |
 | H-T5 soil part | succeeded |
-| Open | API terms of use to read; date of the predictions to find |
+| Date of the values | 2021, publication of the maps; exact day to read in the article |
+| Open | the API account is for personal use: a professional account, or the open bulk files, is needed for an MCP tool |
