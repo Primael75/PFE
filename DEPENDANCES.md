@@ -41,3 +41,11 @@ libraries loaded dynamically, some under weak copyleft: GEOS and libiconv
 links to them directly. Whether dynamically loaded LGPL libraries fit the
 licence policy is left to ADR-0005, still a draft. Fallback if refused:
 tifffile and imagecodecs (BSD-3-Clause), which read the same values.
+## Group `dev`
+
+Development tools, installed by `uv sync`. Only the ones added after the
+initial set are listed.
+
+| Dependency | Version | Licence | Category | Reason |
+| --- | --- | --- | --- | --- |
+| pyyaml | >=6,<7 | MIT | Permissive | Read the zone profiles (`config/zones/`) in their tests; becomes a runtime dependency when a brick reads them |

@@ -16,7 +16,11 @@ dependencies = [
 ]
 
 [dependency-groups]
-dev = ["ruff", "pytest"]
+dev = [
+    "ruff",
+    "pytest",
+    "pyyaml>=6,<7",
+]
 diagnosis = [
     "numpy>=2.5,<3",
     "pillow>=13,<14",

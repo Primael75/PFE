@@ -34,6 +34,7 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "pytest" },
+    { name = "pyyaml" },
     { name = "ruff" },
 ]
 diagnosis = [
@@ -62,6 +63,7 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "pytest" },
+    { name = "pyyaml", specifier = ">=6,<7" },
     { name = "ruff" },
 ]
 diagnosis = [

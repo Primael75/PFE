@@ -11,4 +11,8 @@ Team 1 (Sowing).
 Commune maps and season onset dates, to team 3.
 
 ## Status
-Empty. To be built in sprints 1 and 2.
+- `onset.py`: season onset date of a daily rainfall series, with the
+  Sivakumar (1988) criterion family. Every parameter is a field of
+  `OnsetCriterion`, read from the zone profile. Domain code, no I/O.
+  Checked on ten hand-built series (H-T1), see `docs/trials/ht1-onset.md`.
+- MCP tools, sowing window and false-start risk: sprint 2.
