@@ -2,11 +2,13 @@
 
 Usage, from the repository root:
     uv run python scripts/ht5_wfp_prices.py
-    uv run python scripts/ht5_wfp_prices.py --zone-a Collines Borgou Alibori Atakora Donga
+    uv run python scripts/ht5_wfp_prices.py --no-download
+    uv run python scripts/ht5_wfp_prices.py --zone config/zones/zone-a.yaml
 
 Writes docs/data/wfp-prices-benin.md: source, licence, download date,
 checksum, then the markets covered for maize, sorghum, cassava and cowpea
-with their first and last dates.
+with their first and last dates, for all of Benin and for the departments
+of the zone profile (default config/zones/zone-a.yaml).
 """
 
 import argparse
@@ -15,6 +17,8 @@ import logging
 import urllib.request
 from datetime import date
 from pathlib import Path
+
+import yaml
 
 from agritech.markets.wfp import CROP_COMMODITIES, MarketCoverage, coverage, read_prices
 
@@ -33,6 +37,12 @@ def download(target: Path) -> None:
     logger.info("Downloading %s", CSV_URL)
     with urllib.request.urlopen(CSV_URL, timeout=120) as response:
         target.write_bytes(response.read())
+
+
+def zone_departments(profile: Path) -> tuple[int, list[str]]:
+    """Version of a zone profile and its departments, in file order."""
+    data = yaml.safe_load(profile.read_text(encoding="utf-8"))
+    return data["zone"]["version"], list(data["communes"])
 
 
 def sha256(path: Path) -> str:
@@ -80,15 +90,22 @@ def main() -> None:
         "--no-download", action="store_true", help="reuse the local file"
     )
     parser.add_argument(
-        "--zone-a", nargs="*", default=None, help="departments of zone A"
+        "--zone",
+        type=Path,
+        default=Path("config/zones/zone-a.yaml"),
+        help="zone profile whose departments make up the zone section",
     )
     parser.add_argument(
         "--out", type=Path, default=Path("docs/data/wfp-prices-benin.md")
     )
     args = parser.parse_args()
 
-    if not args.no_download:
+    if args.no_download:
+        # The data sheet dates the file itself, not the day it was regenerated.
+        downloaded = date.fromtimestamp(args.csv.stat().st_mtime)
+    else:
         download(args.csv)
+        downloaded = date.today()
     rows = list(read_prices(args.csv))
     all_markets = coverage(rows)
     last_date = max(row.day for row in rows)
@@ -105,7 +122,7 @@ def main() -> None:
         f"| Source | World Food Programme, via HDX: {DATASET_PAGE} |",
         f"| File | {CSV_URL} |",
         f"| Licence | {LICENCE} |",
-        f"| Downloaded on | {date.today():%Y-%m-%d} |",
+        f"| Downloaded on | {downloaded:%Y-%m-%d} |",
         f"| SHA-256 | `{sha256(args.csv)}` |",
         f"| Rows | {len(rows)} |",
         f"| Last date in the file | {last_date:%Y-%m-%d} |",
@@ -116,16 +133,16 @@ def main() -> None:
         "",
         *summary(all_markets, since),
     ]
-    if args.zone_a:
-        zone = coverage(rows, set(args.zone_a))
-        lines += [
-            "",
-            f"## Zone A: {', '.join(args.zone_a)}",
-            "",
-            *summary(zone, since),
-            "",
-            *table(zone),
-        ]
+    version, departments = zone_departments(args.zone)
+    zone = coverage(rows, set(departments))
+    lines += [
+        "",
+        f"## Zone A ({args.zone}, version {version}): {', '.join(departments)}",
+        "",
+        *summary(zone, since),
+        "",
+        *table(zone),
+    ]
     lines += ["", "## Detail, all markets", "", *table(all_markets), ""]
 
     args.out.parent.mkdir(parents=True, exist_ok=True)

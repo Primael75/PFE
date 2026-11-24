@@ -8,7 +8,7 @@ sheet (source, licence, date), for maize, sorghum, cassava and cowpea.
 ## How to produce it
 
 ```bash
-uv run python scripts/ht5_wfp_prices.py --zone-a <departments of zone A>
+uv run python scripts/ht5_wfp_prices.py
 ```
 
 The script downloads the WFP file from HDX into `downloads/` (not
@@ -16,9 +16,8 @@ versioned), computes its SHA-256, and writes the data sheet
 `docs/data/wfp-prices-benin.md`: source, licence, download date, last
 date, and the markets of each crop with their first and last months.
 
-Zone A is not fixed in the project documents yet (zone profile, Aissata).
-Until then, run it on the centre and north, the validation zone of the
-specification: `Collines Borgou Alibori Atakora Donga`.
+The departments of zone A come from the zone profile
+`config/zones/zone-a.yaml` (option `--zone`).
 
 ## Commodity mapping
 
@@ -51,22 +50,14 @@ File downloaded on 2026-11-22, SHA-256 `a6d1d42a0778468b3fdb8ed8dd0ba9f3e038962b
 
 | Question | Answer |
 | --- | --- |
-| Zone A markets covered, per crop | 22 for each of the four crops, in the five departments (Alibori 3, Atakora 5, Borgou 7, Collines 4, Donga 3) |
+| Zone A markets covered, per crop | 18 for each of the four crops, in the four departments (Alibori 3, Atakora 5, Borgou 7, Donga 3) |
 | Last date available | 2026-10-15 |
-| Markets with data in the last 12 months | 21 for each crop; N'Dali (Borgou) stopped in 2016-02 |
+| Markets with data in the last 12 months | 17 for each crop; N'Dali (Borgou) stopped in 2016-02 |
 | H-T5 price part | **Succeeded** |
 
 Reservations:
 
-- Zone A is provisional (centre and north) until the zone profile fixes it.
-- Cassava is priced as gari, not fresh cassava.
-- Cowpea is assumed to be `Beans (white)`: to confirm in a WFP bulletin.
-- A gap in 2017 and 2018 is reported by a third-party audit: to check before
-  using the series for forecasting.
-
-Reservations:
-
-- Zone A is provisional (centre and north) until the zone profile fixes it.
+- Zone A follows the zone profile v1 (4 departments, north of 8.7° N); Collines is excluded.
 - Cassava is priced as gari, not fresh cassava.
 - Cowpea is assumed to be `Beans (white)`: to confirm in a WFP bulletin.
 - A gap in 2017 and 2018 is reported by a third-party audit: to check before

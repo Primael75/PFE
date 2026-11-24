@@ -5,7 +5,7 @@
 | Team | 3, Markets; project lead and platform |
 | Role | Platform (Fred, repository, MCP template), market prices, project management |
 | Date | 24 November 2026 |
-| Scope | Platform for all teams; WFP prices for the provisional zone A |
+| Scope | Platform for all teams; WFP prices for zone A |
 | Pull requests | Repository and tooling: #1 to #5, #9; Fred: #6, #7, #12, #13; MCP template: #8; H-T4: #10; H-T5: #11 (https://github.com/Primael75/PFE/pulls?q=is%3Apr+author%3APrimael75) |
 
 ## Summary
@@ -16,7 +16,7 @@
 | Shared Fred instance | Done, 1 member of 3 connected | One member connected through Tailscale and opened a conversation; internal ports blocked | Section 2 |
 | MCP server template | Done; timed trial by a member to do | Common output `SourcedValue`, explicit error on missing data, two exposure cases, tests, CI | `src/agritech/example/`, #8 |
 | H-T4: MCP tool called by an agent, receiving a photo | Partly failed, fallback chosen | The agent calls the tool; a photo attached in the chat cannot be read (403) | `docs/trials/ht4-photo-tool.md`, #10, #12 |
-| H-T5, price part | Succeeded | 22 WFP markets in zone A, 21 active; last price 2026-10-15 | `docs/data/wfp-prices-benin.md`, `docs/trials/ht5-prices.md`, #11 |
+| H-T5, price part | Succeeded | 18 WFP markets in zone A, 17 active; last price 2026-10-15 | `docs/data/wfp-prices-benin.md`, `docs/trials/ht5-prices.md`, #11 |
 | ADR-0002 | Proposed | LiteLLM gateway, Mistral Small 4 by default, monthly cap, Graph coordinator | `docs/adr/0002-model-provider-gateway-and-coordinator.md`, #13 |
 | Project management | Hours collected; J1 meeting notes to write | The requested hours were used and were enough | `docs/sprints/s1/compte-rendu-j1.md` (25 November) |
 
@@ -58,8 +58,8 @@ Details: `docs/trials/ht4-photo-tool.md`.
 Details: `docs/trials/ht5-prices.md`; data sheet: `docs/data/wfp-prices-benin.md`.
 
 - WFP file for Benin from HDX, downloaded on 22 November 2026: 148,380 rows, SHA-256 recorded, licence CC BY-IGO checked on the HDX page.
-- Provisional zone A (Collines, Borgou, Alibori, Atakora, Donga): 22 markets for maize, sorghum, cassava (gari) and cowpea (`Beans (white)`), in the five departments; 21 with prices in the last 12 months; N'Dali stopped in 2016.
-- **Verdict: succeeded.** Reservations: provisional zone A, cassava priced as gari, cowpea mapping to confirm, a 2017-2018 gap to check before forecasting.
+- Zone A from the zone profile v1 (Alibori, Atakora, Borgou, Donga): 18 markets for maize, sorghum, cassava (gari) and cowpea (`Beans (white)`), in the four departments; 17 with prices in the last 12 months; N'Dali stopped in 2016.
+- **Verdict: succeeded.** Reservations: cassava priced as gari, cowpea mapping to confirm, a 2017-2018 gap to check before forecasting.
 
 ## 6. ADR-0002 (proposed)
 
