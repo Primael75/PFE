@@ -25,6 +25,22 @@ PyTorch CPU index (`[tool.uv.index]` in `pyproject.toml`).
 | torch | >=2.15,<3, CPU build | BSD-3-Clause | Permissive | Photo diagnosis: train and run the baseline model |
 | torchvision | >=0.29,<1, CPU build | BSD-3-Clause | Permissive | Photo diagnosis: MobileNetV3-Large architecture and image transforms |
 
+## Group `rainfall`
+
+Installed only on request (`uv sync --group rainfall`); CI installs it to
+run the CHIRPS tests.
+
+| Dependency | Version | Licence | Category | Reason |
+| --- | --- | --- | --- | --- |
+| rasterio | >=1.4,<2 | BSD-3-Clause | Permissive, see note | Read the CHIRPS GeoTIFFs exported from Earth Engine and rasterise the commune polygons |
+| numpy | >=2.5,<3 | BSD-3-Clause | Permissive | Average the pixels of each commune, count missing and impossible values |
+
+**Note on rasterio.** Its binary wheels bundle GDAL (MIT) and native
+libraries loaded dynamically, some under weak copyleft: GEOS and libiconv
+(LGPL), spatialite and freexl (MPL/GPL/LGPL tri-licence). No code of ours
+links to them directly. Whether dynamically loaded LGPL libraries fit the
+licence policy is left to ADR-0005, still a draft. Fallback if refused:
+tifffile and imagecodecs (BSD-3-Clause), which read the same values.
 ## Group `dev`
 
 Development tools, installed by `uv sync`. Only the ones added after the

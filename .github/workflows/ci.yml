@@ -23,7 +23,7 @@ jobs:
           enable-cache: true
 
       - name: Installer le projet et ses outils
-        run: uv sync --locked --group diagnosis
+        run: uv sync --locked --group diagnosis --group rainfall
 
       - name: Contrôles (style, mise en forme, tests)
         run: make check

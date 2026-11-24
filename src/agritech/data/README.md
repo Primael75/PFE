@@ -23,4 +23,13 @@ uv run python -m agritech.data.prepare_data --root <raw data> --out data_ccmt
 uv run python -m agritech.data.check_split --data data_ccmt
 ```
 
-Images and generated splits stay outside Git. Other datasets: to be built.
+Rainfall: `chirps.py` averages the CHIRPS v3 daily GeoTIFFs over each
+commune and counts missing days and impossible values (see
+`docs/data/chirps.md`). It needs the `rainfall` dependency group; run it
+with `scripts/chirps_by_commune.py`.
+
+Soils: `isdasoil.py` reads iSDAsoil properties at a point through the API
+(see `docs/data/isdasoil.md` and `docs/trials/ht5-soil.md`).
+
+Images, GeoTIFFs and generated files stay outside Git. Other datasets: to
+be built.
