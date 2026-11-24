@@ -1,0 +1,117 @@
+# Zone A profile: northern Benin, single rainy season (EF-01).
+#
+# Everything that depends on the place lives here: communes, onset criterion,
+# crops, sources. Adding a zone means adding a file like this one, without
+# changing any Python code (H-G, CA-02).
+
+zone:
+  id: zone-a
+  name: Northern Benin, single rainy season
+  version: 1
+  created: 2026-11-20
+  status: draft, to be reviewed by Messan
+  owner: Team 1 (Sowing)
+
+# Communes whose centroid lies north of 8.7 N: south of this line Benin has
+# two rainy seasons, which a single search window cannot handle. The line
+# gives exactly the four departments below. Names are spelled as in the
+# geoBoundaries file, the key used to join rainfall to communes.
+extent:
+  country: Benin
+  iso_code: BEN
+  admin_level: ADM2
+  rule: commune centroid latitude > 8.7
+  min_latitude: 8.7
+  boundaries: geoBoundaries gbOpen BEN ADM2
+
+communes:
+  Alibori: [Banikoara, Gogounou, Kandi, Karimama, Malanville, Segbana]
+  Atakora:
+    - Boukombe
+    - Kerou
+    - Kobli
+    - Kouande
+    - Materi
+    - Natitingou
+    - Pehunco
+    - Tanguieta
+    - Toucountouna
+  Borgou: [Bembereke, Kalale, "N'dali", Nikki, Parakou, Perere, Sinende, Tchaourou]
+  Donga: [Bassila, Copargo, Djougou, Ouake]
+
+# Sivakumar (1988): from 1 May, the first day where 3 consecutive days total
+# at least 20 mm, with no dry spell longer than 7 days in the next 30 days.
+# Keys are the fields of agritech.sowing.onset.OnsetCriterion. Documented
+# variants are set here: 21-day check (NOAA CPC), search from 1 February
+# (Ghana Meteorological Agency), 15 mm threshold (ANACIM).
+onset_criterion:
+  name: sivakumar_1988
+  reference: Sivakumar M.V.K. (1988), Agricultural and Forest Meteorology 42(4), 295-305
+  search_from: {month: 5, day: 1}
+  search_to: {month: 9, day: 30}
+  window_days: 3
+  window_threshold_mm: 20
+  check_days: 30
+  max_dry_spell_days: 7
+  wet_day_mm: 1.0
+  # First day of the window, the first useful rain (option A, decided on
+  # 2026-11-20, confirmed on 2026-11-24). The other value is threshold_day.
+  onset_day: first_day_of_window
+
+# Indicative FAO ranges for a crop in optimal conditions: the high end for a
+# long cycle, the low end for a short one. cycle_days gives the end of the
+# useful season (EF-10). Ids match the crop names of the markets brick.
+crops:
+  - id: maize
+    name_fr: Maïs
+    scientific_name: Zea mays
+    water_need_mm: [500, 800]
+    cycle_days: 120
+    root_depth_cm: 100
+    optimal_ph: [5.5, 7.5]
+    source: FAO Land & Water, crop information sheet
+  - id: sorghum
+    name_fr: Sorgho
+    scientific_name: Sorghum bicolor
+    water_need_mm: [450, 650]
+    cycle_days: 130
+    root_depth_cm: 120
+    optimal_ph: [5.5, 8.0]
+    source: FAO Land & Water, crop information sheet
+  - id: cowpea
+    name_fr: Niébé
+    scientific_name: Vigna unguiculata
+    water_need_mm: [300, 500]
+    cycle_days: 90
+    root_depth_cm: 80
+    optimal_ph: [5.5, 7.5]
+    # FAO gives no value for cowpea: these are the "Bean" values, an
+    # approximation to state in the report.
+    source: FAO Irrigation and Drainage Paper 33, table 14, Bean
+  - id: cassava
+    name_fr: Manioc
+    scientific_name: Manihot esculenta
+    water_need_mm: [400, 750]
+    cycle_days: 300
+    root_depth_cm: 150
+    optimal_ph: [5.0, 7.0]
+    source: FAO, Save and Grow - Cassava (2013)
+
+sources:
+  rainfall:
+    name: CHIRPS v3 daily, rnl product (Climate Hazards Center, UCSB)
+    url: https://www.chc.ucsb.edu/data/chirps3
+    licence: CC BY 4.0
+    resolution_deg: 0.05
+    period: 1981-2025
+    sheet: docs/data/chirps.md
+  soil:
+    name: iSDAsoil v2 (iSDA)
+    url: https://www.isda-africa.com/isdasoil/
+    licence: CC BY 4.0
+    resolution_m: 30
+    sheet: docs/data/isdasoil.md
+  boundaries:
+    name: geoBoundaries gbOpen BEN ADM2
+    url: https://www.geoboundaries.org/api/current/gbOpen/BEN/ADM2/
+    licence: Public Domain
