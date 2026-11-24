@@ -23,6 +23,10 @@ diagnosis = [
     "torch>=2.15,<3",
     "torchvision>=0.29,<1",
 ]
+rainfall = [
+    "numpy>=2.5,<3",
+    "rasterio>=1.4,<2",
+]
 
 [tool.ruff.lint]
 extend-select = ["T20"]
