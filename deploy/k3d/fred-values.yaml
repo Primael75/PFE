@@ -20,3 +20,12 @@ applications:
           url: "http://host.docker.internal:8077/mcp"
           sse_read_timeout: 2000
           auth_mode: "delegated"
+        - id: "mcp-agritech-diagnosis"
+          name: "Agritech photo diagnosis"
+          description: "Suspected disease or pest on a photo of a cashew, cassava, maize or tomato leaf attached in the conversation."
+          prompt_group_title: "Agritech diagnosis"
+          enabled: true
+          transport: "streamable_http"
+          url: "http://host.docker.internal:8078/mcp"
+          sse_read_timeout: 2000
+          auth_mode: "delegated"

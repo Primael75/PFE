@@ -14,7 +14,9 @@ The diagnosis tool and the offline mode of the application, to all teams.
 ## Status
 Baseline model trained on CCMT (Ghana), scored per class on the validation
 split, H-T2 passed on the phone tested with the 32-bit ONNX export (see
-`docs/trials/ht2-latency.md`). Not yet exposed as an MCP tool.
+`docs/trials/ht2-latency.md`). Exposed to Fred as the MCP tool
+`diagnose_photo` (see below). Calibration (`calibration.json`) and the
+off-topic class come in sprint 2.
 
 | Module | Role |
 | --- | --- |
@@ -22,6 +24,10 @@ split, H-T2 passed on the phone tested with the 32-bit ONNX export (see
 | `train.py` | Two-stage training; reads `train.csv` and `val.csv` only |
 | `evaluate.py` | Precision, recall and F1 per class on the validation split |
 | `latency.py` | Response time per photo with PyTorch (reference for H-T2) |
+| `diagnosis.py` | Domain: turns class probabilities into a `SourcedValue` (class, `uncertain` or `off_topic`). No MCP, no PyTorch |
+| `classifier.py` | Adapter: the trained network behind the `Classifier` protocol, loaded and preprocessed through `model.py` |
+| `mcp_server.py` | Adapter, template case A: the tool `diagnose_photo(document_uid)`, served over streamable HTTP |
+| `weights/` | Where the server looks for `best.pt` and, once computed, `calibration.json` (outside Git: see `weights/README.md`) |
 
 The splits come from `agritech.data.prepare_data` (see `docs/data/ccmt.md`).
 Weights, runs and photos stay outside Git.
@@ -106,3 +112,62 @@ share of the answers "this class" that are right.
   (1 photo taken for `cashew_healthy`).
 - These are validation scores on CCMT photos (Ghana, 400 x 400 squares);
   the score on phone photos from Benin is still to be measured.
+
+## MCP tool: `diagnose_photo(document_uid)`
+
+The photo is read as in the template's photo example (H-T4): the agent passes
+the document uid of the photo attached in Fred, and the tool downloads its
+bytes from Knowledge Flow. The result is a `SourcedValue`:
+
+| Field | Content |
+| --- | --- |
+| `value` | The class name (for example `cassava_mosaic`), `uncertain` when the confidence is below the calibrated threshold, or `off_topic` |
+| `unit` | `label` |
+| `source` | The model: file name and number of classes |
+| `as_of` | The day of the diagnosis: the photo's upload date is not known to the tool |
+| `uncertainty` | Confidence of the most likely class, between 0 and 1 |
+
+An unreadable or missing photo returns `missing_data(...)`, an explicit error.
+Class names keep the spelling of the training dataset (for example
+`maize_grasshoper`): they are the keys of the fact sheets, not display names.
+
+## Serve the tool
+
+From the repository root, with `best.pt` downloaded into
+`src/agritech/diagnosis/weights/` (see `weights/README.md`):
+
+```bash
+uv sync --group diagnosis
+
+# Reading photos from a local folder: the file name is the uid
+AGRITECH_PHOTO_DIR=/path/to/photos \
+  uv run uvicorn agritech.diagnosis.mcp_server:create_app --factory --port 8078
+
+# Tool time on the server, over HTTP (complement to H-T2, see docs/trials/ht2-diagnosis-time.md)
+uv run python scripts/measure_ht2.py /path/to/photos --url http://127.0.0.1:8078/mcp --runs 50
+
+# In Fred: read photos from Knowledge Flow
+AGRITECH_KF_BASE_URL=http://<knowledge-flow-host>/knowledge-flow/v1 \
+  uv run uvicorn agritech.diagnosis.mcp_server:create_app --factory --port 8078
+```
+
+`AGRITECH_DIAGNOSIS_MODEL` points to other weights. The model is loaded once,
+when the server starts.
+
+## Deviations from the template
+
+| What | Why | Impact |
+| --- | --- | --- |
+| `value` carries `uncertain` or `off_topic` instead of a class name | `SourcedValue` has a single value; abstaining is a valid answer, not missing data. Agreed with the Diagnosis team | The agent must treat these two values as answers, not as diseases |
+| The other likely classes are dropped | Same reason; to revisit when an agent needs them | The agent sees only the most likely class |
+| Imports `PhotoSource` from `agritech.example.photo_source` | Reuse, not duplicate: the same Knowledge Flow reading as H-T4 | Same deviation as H-T4 (forwarded bearer and grant). The module could move to `core` |
+
+## Checkpoint and calibration
+
+`best.pt` is the checkpoint written by `train.py` and read by
+`model.load_checkpoint`, with `torch.load(weights_only=True)`. The server
+uses its `classes`, `img_size` and `state_dict`.
+
+`calibration.json` holds `temperature` (divides the scores before softmax)
+and `threshold` (abstention threshold), both computed on the validation set.
+Without it the model never abstains, and the server logs a warning.
