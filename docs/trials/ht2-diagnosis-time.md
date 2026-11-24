@@ -1,9 +1,15 @@
-# H-T2: the diagnosis model, exposed as an MCP tool, answers in less than 5 seconds on the server
+# Diagnosis tool time on the server (complement to H-T2)
 
 Owners: Kelyan and Fatoumata (team 2). Sprint 1 plan.
 
+H-T2 itself is measured on a phone, in the browser, and is passed on the
+phone tested: see `ht2-latency.md`. This note measures another path: the
+photo attached in Fred and diagnosed on the server by the MCP tool. It gives
+no verdict on H-T2; it checks that this path also stays under the same
+5-second limit.
+
 **Done when:** the tool time is measured on the shared instance, from
-Knowledge Flow, with real photos, and its p95 is below 5 seconds.
+Knowledge Flow, with real photos, and its p95 is reported against 5 seconds.
 
 ## Method
 
@@ -11,7 +17,7 @@ Knowledge Flow, with real photos, and its p95 is below 5 seconds.
   streamable HTTP, as Fred calls it, by `scripts/measure_ht2.py`.
 - The model is loaded when the server starts. Two warm-up calls are not
   counted; the load time is read in the server log.
-- Verdict on the 95th percentile of the tool time: a mean would hide the slow
+- Read on the 95th percentile of the tool time: a mean would hide the slow
   calls that a farmer would actually wait for.
 - Photos: 30 to 50 photos of the validation set, never the locked test set.
 
@@ -34,7 +40,7 @@ CPU inference. 50 CCMT photos drawn at random across the four crops (seed 42).
 | Tool time, local folder, median / p95 | | `scripts/measure_ht2.py` |
 | Tool time, from Knowledge Flow on the instance, median / p95 | | `scripts/measure_ht2.py`, server with `AGRITECH_KF_BASE_URL` |
 | Machine of the instance (CPU, memory, GPU) | | |
-| Verdict | | passed / failed |
+| p95 under 5 s | | yes / no |
 
 ## Open points
 

@@ -123,15 +123,12 @@ def test_torch_classifier_matches_the_training_contract(tmp_path):
     import io
 
     from PIL import Image
-    from torchvision import models
 
     from agritech.diagnosis.classifier import TorchClassifier
+    from agritech.diagnosis.model import build_model
 
     classes = ["cassava_mosaic", "maize_healthy", "tomato_leaf_curl"]
-    network = models.mobilenet_v3_large(weights=None)
-    network.classifier[3] = torch.nn.Linear(
-        network.classifier[3].in_features, len(classes)
-    )
+    network = build_model(len(classes), weights="none")
     path = tmp_path / "best.pt"
     torch.save(
         {"classes": classes, "img_size": 224, "state_dict": network.state_dict()}, path

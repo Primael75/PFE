@@ -1,9 +1,9 @@
-"""The trained diagnosis network (MobileNetV3), behind the `Classifier` protocol.
+"""The trained diagnosis network, served behind the `Classifier` protocol.
 
-Preprocessing must match training exactly: EXIF rotation, RGB, direct resize
-to a square (no crop, so that a spot on the border is kept), ImageNet
-normalisation. PyTorch is imported on first use, so that the rest of the
-brick and its tests run without it.
+Loading and preprocessing come from `model.py`, the contract shared with
+training: the server must prepare a photo exactly as training did. PyTorch is
+imported on first use, so that the rest of the brick and its tests run
+without it.
 """
 
 import io
@@ -14,9 +14,6 @@ from pathlib import Path
 
 logger = logging.getLogger(__name__)
 
-IMAGENET_MEAN = (0.485, 0.456, 0.406)
-IMAGENET_STD = (0.229, 0.224, 0.225)
-
 # Downloaded next to the brick, out of Git; AGRITECH_DIAGNOSIS_MODEL can override.
 DEFAULT_MODEL = Path(__file__).resolve().parent / "weights" / "best.pt"
 
@@ -26,26 +23,12 @@ class TorchClassifier:
 
     def __init__(self, model_path: Path = DEFAULT_MODEL):
         import torch
-        from torchvision import models, transforms
 
-        # weights_only refuses arbitrary pickled objects: the checkpoint only
-        # needs tensors, the class list and the image size.
-        checkpoint = torch.load(model_path, map_location="cpu", weights_only=True)
+        from agritech.diagnosis.model import eval_transform, load_checkpoint
+
+        self._network, checkpoint = load_checkpoint(model_path, torch.device("cpu"))
         self.classes: list[str] = list(checkpoint["classes"])
-        network = models.mobilenet_v3_large(weights=None)
-        network.classifier[3] = torch.nn.Linear(
-            network.classifier[3].in_features, len(self.classes)
-        )
-        network.load_state_dict(checkpoint["state_dict"])
-        self._network = network.eval()
-        size = int(checkpoint["img_size"])
-        self._transform = transforms.Compose(
-            [
-                transforms.Resize((size, size)),
-                transforms.ToTensor(),
-                transforms.Normalize(IMAGENET_MEAN, IMAGENET_STD),
-            ]
-        )
+        self._transform = eval_transform(int(checkpoint["img_size"]))
         self._torch = torch
 
         # Calibration (temperature and abstention threshold) is computed on the
@@ -68,12 +51,12 @@ class TorchClassifier:
         )
 
     def probabilities(self, photo: bytes) -> Mapping[str, float] | None:
-        from PIL import Image, ImageOps, UnidentifiedImageError
+        from PIL import UnidentifiedImageError
+
+        from agritech.diagnosis.model import load_rgb
 
         try:
-            image = ImageOps.exif_transpose(Image.open(io.BytesIO(photo))).convert(
-                "RGB"
-            )
+            image = load_rgb(io.BytesIO(photo))
         except (UnidentifiedImageError, OSError, ValueError):
             return None
         batch = self._transform(image).unsqueeze(0)
