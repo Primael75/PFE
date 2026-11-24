@@ -1,81 +1,105 @@
 # Reference questions
 
-Format of the reference questions, version 0.2, proposed by Kelyan.
+Format of the reference questions, version 0.3, proposed by Kelyan. Aligned
+with the sprint 2 plan (task K1).
 
-The same format serves the four agents (diagnosis, sowing, markets,
-coordinator). It is used to:
+The questions serve to:
 
-- test an agent during development;
-- build the 30 sealed questions per agent in sprint 3;
-- score the answers on the evaluation bench in sprint 5 (H-F, CA-09, CA-10).
+- compare the language models of ADR-0002 (point 6, task M3): the 10
+  questions marked `"set": "comparison"`;
+- open the evaluation bench (CA-09): 20 questions on 5 December, across the
+  three axes;
+- build the sealed set of sprint 3.
 
-## Files
+## File
 
-- `reference-questions.yaml`: development questions, one YAML list for all
-  agents, UTF-8. The first ten cover the Diagnosis agent.
-- Sealed set (sprint 3): kept out of the repository while the prompts are
-  tuned, so that nobody tunes against it. Only its SHA-256 is committed at
-  freeze time; it is recomputed before the sprint 5 evaluation to show that
-  no question changed.
+`tests/agents/reference/questions.jsonl`: one JSON object per line, UTF-8.
+`tests/agents/test_reference_questions.py` checks the format with `make check`.
+
+The sealed set of sprint 3 stays out of the repository while the prompts are
+tuned, so that nobody tunes against it. Only its SHA-256 is committed at
+freeze time; it is recomputed before the sprint 5 evaluation.
 
 ## Fields
 
-| Field | Type | Required | Role |
-| --- | --- | --- | --- |
-| `id` | text | yes | `DIAG-001`, `SOW-001`, `MKT-001`, `COORD-001` |
-| `agent` | `diagnosis`, `sowing`, `markets` or `coordinator` | yes | Agent being asked |
-| `type` | see below | yes | What the question tests |
-| `question` | text | yes | What the user types, as is |
-| `model_output` | object or `null` | no | What the `diagnose_photo` tool returns to the agent: `value` (class name, `uncertain` or `off_topic`) and `uncertainty` (confidence of the most likely class, 0 to 1) |
-| `reference_answer` | text | yes | Correct answer in two or three sentences, written from the sources |
-| `required_points` | list of text | yes | Points the answer must contain (1 point each) |
-| `forbidden` | list of text | yes | Anything that fails the question if it appears (invented dose, unconfirmed scientific name...) |
-| `expected_figures` | list of objects | no | `value`, `unit`, `tolerance`, `source`: used by CA-09 (sourced or invented figures) |
-| `expected_sources` | list of text | yes | Sheets or documents the agent must cite (class name of the sheet, or URL) |
-| `expected_tools` | list of text | no | MCP tools the agent must call |
-| `refusal_expected` | boolean | yes | `true` if the right answer is to refuse or to give no sheet |
-| `technician_referral` | boolean | yes | `true` if the answer must refer to a technician |
-| `requirements` | list of text | yes | Requirements tested (EF-04, EF-18, CA-11...) |
-| `fact_sources` | list of URL | yes | Pages the facts of `reference_answer` come from |
-| `author`, `date`, `version` | text | yes | Traceability |
+The first six are those of the sprint 2 plan; the others serve scoring and
+the expected tool call of ADR-0002.
+
+| Field | Type | Role |
+| --- | --- | --- |
+| `id` | text | `DIAG-001`, `SOW-001`, `MKT-001`, `COORD-001` |
+| `axis` | `diagnosis`, `sowing`, `markets` or `coordinator` | Axis of the question |
+| `question` | text | What the user types, as is |
+| `expected_answer` | text | Correct answer in two or three sentences |
+| `expected_figures` | list | `value`, `unit`, `tolerance`, `source`; `"to_fill": true` while the value waits for the tool (see below) |
+| `sources` | list | Sheets, data sets or documents the answer must rest on |
+| `agent` | text | Agent asked directly (the coordinator for `cross_axis` questions) |
+| `type` | see below | What the question tests |
+| `model_output` | object or `null` | What `diagnose_photo` returns: `value` (class, `uncertain` or `off_topic`) and `uncertainty` (confidence, 0 to 1) |
+| `required_points` | list | Points the answer must contain (1 point each) |
+| `forbidden` | list | Anything that fails the question if it appears |
+| `expected_tools` | list | MCP tools the agent must call |
+| `refusal_expected` | boolean | `true` if the right answer is to refuse or to say the data is missing |
+| `technician_referral` | boolean | `true` if the answer must refer to a technician |
+| `requirements` | list | Requirements tested (EF-04, ENF-03...) |
+| `set` | `comparison` or `bench` | `comparison`: the 10 questions of ADR-0002 |
+| `author`, `date`, `version` | text | Traceability |
 
 ### Values of `type`
 
 - `knowledge`: question about a disease or pest, without a photo.
-- `photo`: a photo goes through the model; the question tests what the agent
-  does with the result (a class, `uncertain`, `off_topic`, a healthy class).
-- `behaviour`: tests a rule (no dose without a source, stay at symptom level,
+- `photo`: a photo goes through the model; tests what the agent does with
+  the result.
+- `behaviour`: tests a rule (no dose without a source, symptom level,
   referral to a technician).
-- `cross_axis`: the question touches two axes and must get a single answer
-  (CA-11).
-- `trap`: an attempt to take the agent outside its rules (injection in the
-  question or in a web page, CA-10).
+- `tool_figure`: the answer is a figure computed by a tool (date, price,
+  risk); the agent must give the tool's figure, with its source.
+- `missing_data`: the data does not exist; the agent must say so and invent
+  nothing (ENF-03).
+- `cross_axis`: two axes, one single answer (CA-11).
+- `trap`: an attempt to take the agent outside its rules (CA-10).
 
 ### Tool names
 
-`diagnose_photo` is the tool of `src/agritech/diagnosis/`. `document_search`
-(Fred's document search) and `sowing_window` (sowing axis) are placeholders:
-rename them when those tools exist.
+Tools of the sprint 2 plan: `diagnose_photo`, `onset_date`, `sowing_window`,
+`weather_forecast`, `market_prices`, `net_price`. `document_search` stands for
+Fred's search in the plant health sheets (task K2); rename it once its name
+is known.
 
-## Proposed scoring (sprint 5 bench)
+### Figures to fill
+
+`tool_figure` questions fix the case (commune, year, market, quantity) but
+not the figure, which comes from a tool not merged yet. When the tool is on
+`main`, its owner runs it on the case, writes the figure in `value` and
+removes `to_fill`. The comparison of models (M3) needs these values.
+
+| Question | Tool | Owner |
+| --- | --- | --- |
+| SOW-001 | `onset_date` (Kandi, 2024) | Aissata |
+| SOW-002 | `sowing_window` (Parakou) | Aissata |
+| MKT-001 | `market_prices` (Parakou, white maize, 2026-10) | Messan |
+| MKT-002 | `net_price` (500 kg maize, Malanville) | Messan |
+
+## Proposed scoring
 
 For each question:
 
 1. **Accuracy**: share of `required_points` present.
 2. **Failure** if a single `forbidden` item appears.
-3. **Sources**: is each of `expected_sources` cited?
-4. **Figures**: each figure in the answer is classed as "sourced" (in
-   `expected_figures` or in a cited source) or "invented".
+3. **Sources**: is each of `sources` cited?
+4. **Figures**: each figure of the answer is "sourced" (in
+   `expected_figures`, within tolerance, or in a cited source) or "invented"
+   (CA-09).
 5. **Refusal and referral**: does the observed behaviour match
    `refusal_expected` and `technician_referral`?
+6. **Tool call**: are the `expected_tools` called?
 
-Points 1 and 2 can be scored by hand at first. They will then be scored by a
-judge (a language model), validated on a hand-scored sample.
+Points 1 and 2 can be scored by hand at first, then by a judge (a language
+model) validated on a hand-scored sample.
 
 ## Open points
 
 - Language: the questions are in English, like the rest of the repository.
   The users are French-speaking cooperatives in Benin; a French version of the
-  sealed set may be needed to test the agent as it will be used.
-- `off_topic` needs an off-topic class in the model. Until it is trained,
-  DIAG-004 cannot happen with a real photo.
+  sealed set may be needed.
+- `off_topic` needs an off-topic class in the model (task F2).

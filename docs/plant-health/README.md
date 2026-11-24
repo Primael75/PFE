@@ -7,7 +7,7 @@ Diagnosis agent searches them (EF-18).
 
 - `sources.md`: the recognised sources for each of the 18 disease and pest
   classes, with their licence.
-- `<class>.md`: the sheets written by the team (12 so far). Full example:
+- `<class>.md`: the sheets written by the team, one per class (18). Full example:
   `cashew_anthracnose.md`.
 
 The four healthy classes (`*_healthy`) have no sheet.

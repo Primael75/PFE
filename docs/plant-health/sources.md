@@ -1,7 +1,7 @@
 # Recognised sources
 
 One line per disease or pest class of the CCMT dataset (18 classes; the four
-healthy classes have no sheet). Checked on 2026-11-23.
+healthy classes have no sheet). Checked on 2026-11-24.
 
 "Policy" compares the licence with the data policy of `AGENTS.md`
 (CC0, CC BY, CC BY-IGO or ODbL, from the ADR-0005 draft): **ok** if it fits,
@@ -27,28 +27,26 @@ own words.
 | `tomato_leaf_curl` | Tomato | `tomato_leaf_curl.md` | CCMT paper only: symptom level |
 | `tomato_septoria_leaf_spot` | Tomato | `tomato_septoria_leaf_spot.md` | UT Extension SP 277-W; Ghana survey (GJAS) |
 | `tomato_verticulium_wilt` | Tomato | `tomato_verticulium_wilt.md` | WSU Hortsense; UC IPM |
+| `cassava_bacterial_blight` | Cassava | `cassava_bacterial_blight.md` | Pacific Pests 173; Zárate-Chaves et al. 2021 (agent name) |
+| `cassava_brown_spot` | Cassava | `cassava_brown_spot.md` | Pacific Pests 095 |
+| `cassava_green_mite` | Cassava | `cassava_green_mite.md` | Pacific Pests 438; Benin studies on *Typhlodromalus aripo* |
+| `cassava_mosaic` | Cassava | `cassava_mosaic.md` | Farm Radio International; Pacific Pests 438 (confusion with green mite) |
+| `maize_fall_armyworm` | Maize | `maize_fall_armyworm.md` | Goergen et al. 2016 (PLoS ONE, CC BY 4.0, first report incl. Benin); FAO 2021 farmer field schools |
+| `maize_streak_virus` | Maize | `maize_streak_virus.md` | Plantwise farmer factsheet (Ethiopia); Grain SA |
 
-## Classes without a team sheet yet
+## External sheets no longer needed
 
-These classes rely on an external sheet. None of these licences fits the
-policy as it stands: either the policy accepts them, or the team writes its
-own sheet from the same facts, as for the classes above.
-
-| Class | Crop | Recognised sheet | Licence | Policy |
-| --- | --- | --- | --- | --- |
-| `cassava_bacterial_blight` | Cassava | Infonet-Biovision, Cassava (offline copy kept by Fatoumata); complement: Pacific Pests 173 (no chemical control recommended) | Infonet: free with citation of source and author. Pacific Pests: all rights reserved | to confirm / no |
-| `cassava_brown_spot` | Cassava | Infonet-Biovision, Cassava; complement: Pacific Pests, Cassava brown leaf spot | Infonet: free with citation. Pacific Pests: all rights reserved | to confirm / no |
-| `cassava_green_mite` | Cassava | Infonet-Biovision, Cassava; complements: CABI PMDG (Malawi), Pacific Pests 438 | Infonet: free with citation. CABI: open access, (c) CABI | to confirm / no |
-| `cassava_mosaic` | Cassava | Infonet-Biovision, Cassava; complement: CABI PMDG (management without pesticides) | Infonet: free with citation. CABI: open access, (c) CABI | to confirm / no |
-| `maize_fall_armyworm` | Maize | FAO, Guide de reconnaissance et de gestion durable de la chenille légionnaire d'automne (Togo, 2020), https://doi.org/10.4060/cb0694fr | CC BY-NC-SA 3.0 IGO | no |
-| `maize_streak_virus` | Maize | CABI Plantwise PMDG, Maize streak virus disease; alternative: Plantwise farmer sheet "Management of maize streak virus" (Ethiopia), https://farmknowledge.info/Resource/627880 | PMDG: open access, (c) CABI. Farmer sheet: CC BY-SA 4.0 | no |
+The 6 cassava, fall armyworm and maize streak classes used to rely on an
+external sheet (Infonet, CABI, FAO, Pacific Pests) whose licence does not fit
+the policy. They now have a team sheet written from the same kind of facts,
+so no external sheet has to be loaded into Fred.
 
 Notes:
 
 - `cassava_bacterial_blight`: current name of the agent is *Xanthomonas
-  phaseoli* pv. *manihotis* (Zarate-Chaves et al., 2021).
-- `cassava_green_mite`: Pacific Pests helps tell it apart from bacterial
-  blight (no "candle" symptom).
+  phaseoli* pv. *manihotis* (Zárate-Chaves et al., 2021).
+- `cassava_green_mite` and `cassava_mosaic`: Pacific Pests helps tell them
+  apart (the mite causes a "candle stick" on the shoots, mosaic does not).
 - The CCMT photos were taken in Ghana; the users are cooperatives in Benin.
   Sources from Benin or neighbouring French-speaking countries are preferred
   when they exist.
