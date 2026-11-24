@@ -24,3 +24,12 @@ PyTorch CPU index (`[tool.uv.index]` in `pyproject.toml`).
 | pillow | >=13,<14 | MIT-CMU | Permissive | Photo dataset preparation: decode each image, detect unreadable files |
 | torch | >=2.15,<3, CPU build | BSD-3-Clause | Permissive | Photo diagnosis: train and run the baseline model |
 | torchvision | >=0.29,<1, CPU build | BSD-3-Clause | Permissive | Photo diagnosis: MobileNetV3-Large architecture and image transforms |
+
+## Group `dev`
+
+Development tools, installed by `uv sync`. Only the ones added after the
+initial set are listed.
+
+| Dependency | Version | Licence | Category | Reason |
+| --- | --- | --- | --- | --- |
+| pyyaml | >=6,<7 | MIT | Permissive | Read the zone profiles (`config/zones/`) in their tests; becomes a runtime dependency when a brick reads them |
