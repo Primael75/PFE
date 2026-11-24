@@ -93,6 +93,12 @@ Read in Fred's code at the pinned commit:
    bytes from Knowledge Flow: `GET /knowledge-flow/v1/raw_content/{document_uid}`
    (`knowledge_flow_backend/features/content/content_controller.py`).
    Knowledge Flow checks that the person may read the document.
+
+   **Limit found in the trial:** this works only for a document imported in
+   the team's resources. A photo attached in the chat keeps no original
+   file and no read permission, so `raw_content` answers 403
+   (`knowledge_flow_backend/features/ingestion/ingestion_controller.py`).
+   See `docs/trials/ht4-photo-tool.md`.
 4. Fred calls an MCP server with a bearer and a delegation grant
    (`person`, `run`, `agent`) in the query string
    (`fred_core/security/mcp_delegation.py`).

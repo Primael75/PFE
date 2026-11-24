@@ -44,11 +44,30 @@ A third-party audit of the same file, downloaded on 2026-10-25
 These figures are only a guide: the data sheet must come from our own
 download, with its own checksum.
 
-## Verdict (to fill in after the run)
+## Verdict (2026-11-22)
+
+File downloaded on 2026-11-22, SHA-256 `a6d1d42a0778468b3fdb8ed8dd0ba9f3e038962b38da0d0db44830d34878795b`,
+148,380 rows. Licence checked on the HDX page: CC BY-IGO.
 
 | Question | Answer |
 | --- | --- |
-| Zone A markets covered, per crop | |
-| Last date available | |
-| Markets with data in the last 12 months | |
-| H-T5 price part | succeeded / failed |
+| Zone A markets covered, per crop | 22 for each of the four crops, in the five departments (Alibori 3, Atakora 5, Borgou 7, Collines 4, Donga 3) |
+| Last date available | 2026-10-15 |
+| Markets with data in the last 12 months | 21 for each crop; N'Dali (Borgou) stopped in 2016-02 |
+| H-T5 price part | **Succeeded** |
+
+Reservations:
+
+- Zone A is provisional (centre and north) until the zone profile fixes it.
+- Cassava is priced as gari, not fresh cassava.
+- Cowpea is assumed to be `Beans (white)`: to confirm in a WFP bulletin.
+- A gap in 2017 and 2018 is reported by a third-party audit: to check before
+  using the series for forecasting.
+
+Reservations:
+
+- Zone A is provisional (centre and north) until the zone profile fixes it.
+- Cassava is priced as gari, not fresh cassava.
+- Cowpea is assumed to be `Beans (white)`: to confirm in a WFP bulletin.
+- A gap in 2017 and 2018 is reported by a third-party audit: to check before
+  using the series for forecasting.
