@@ -20,7 +20,7 @@ Choices made where the published rule is not explicit:
 
 | Point | Choice | Why |
 | --- | --- | --- |
-| Reported day | First day of the 3-day window (`first_day_of_window`); `threshold_day` is available | Date of the first useful rain, the one the farmer sees; avoids advising a late sowing. To confirm against the exact wording of Sivakumar (1988) |
+| Reported day | First day of the 3-day window (`first_day_of_window`, option A, confirmed on 2026-11-24); `threshold_day` is available | Date of the first useful rain, the one the farmer sees; avoids advising a late sowing |
 | Check period | 30 days from the first day of the window | Same result on the ten cases as starting after the window |
 | Missing day | Adds nothing to a window, counts as dry | Can only delay the onset, never advance it on unobserved rain |
 | Negative value | Refused (`ValueError`) | An impossible value is counted and cleaned by the rainfall pipeline, not guessed here |
