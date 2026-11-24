@@ -54,9 +54,8 @@ onset_criterion:
   check_days: 30
   max_dry_spell_days: 7
   wet_day_mm: 1.0
-  # First day of the window, the first useful rain (decided on 2026-11-20).
-  # To confirm against the exact wording of Sivakumar (1988); the other
-  # value is threshold_day.
+  # First day of the window, the first useful rain (option A, decided on
+  # 2026-11-20, confirmed on 2026-11-24). The other value is threshold_day.
   onset_day: first_day_of_window
 
 # Indicative FAO ranges for a crop in optimal conditions: the high end for a
