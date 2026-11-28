@@ -107,7 +107,7 @@ tests only, so MD3 starts with a real PX4 simulation run.
 | [hieutachi/mavlink-mcp](https://github.com/hieutachi/mavlink-mcp) | MIT | by default; full control when switched off | mocks only | retained |
 | [PeterJBurke/droneserver](https://github.com/PeterJBurke/droneserver) | MIT | yes, without an API key | ArduPilot simulation, nightly | fallback; remove its unlicensed `mcp-server` dependency |
 | [ion-g-ion/MAVLinkMCP](https://github.com/ion-g-ion/MAVLinkMCP) | MIT | no | PX4 simulation | no safety gate |
-| drone-sim (our prototype) | project | today the agent cannot arm or approve | ArduPilot, Gazebo and AirSim | reference |
+| drone-sim (our prototype) | project | today the agent cannot arm or approve | ArduPilot and PX4, Gazebo and AirSim | reference |
 
 13 other servers were excluded because they have no licence file. No MCP
 server exists for the Crazyflie.
@@ -162,9 +162,9 @@ it.
 
 | Level | What |
 | --- | --- |
-| Tested by us | In the drone-sim prototype, kept outside this repository until ADR-0004: the agent flies a survey in simulation (ArduPilot with Gazebo and AirSim): take-off by a person, survey proposed by the agent, approved, flown, return and landing; drift in a 6 m/s wind with gusts: 1.24 m in Gazebo, 0.70 m in AirSim |
+| Tested by us | In the drone-sim prototype, kept outside this repository until ADR-0004: the agent flies a survey in simulation (ArduPilot with Gazebo and AirSim): take-off by a person, survey proposed by the agent, approved, flown, return and landing; drift in a 6 m/s wind with gusts: 1.24 m in Gazebo, 0.70 m in AirSim. In MD3, `mavlink-mcp` in read-only mode read a simulated PX4 v1.18.0 drone and rejected every action tool (`docs/trials/embedded-sitl.md`) |
 | Read at the source | Licences (LICENSE files), payloads, prices and stock (store pages), Pixhawk 4 support in PX4 v1.18, the end of the GAP8 toolchain |
-| Not verified | The used lot's contents; the F450's payload and flight time (estimates); wind tolerance of every kit; anything on PX4 itself (our simulation runs ArduPilot); the 90 m Benin ceiling (ANAC text needed); shipping and customs to Benin |
+| Not verified | The used lot's contents; the F450's payload and flight time (estimates); wind tolerance of every kit; PX4 on a real drone (tested in simulation only); the 90 m Benin ceiling (ANAC text needed); shipping and customs to Benin |
 
 ## Open points
 
